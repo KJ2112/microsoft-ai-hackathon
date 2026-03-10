@@ -11,7 +11,7 @@ from groq import Groq
 
 def _call_groq(client: Groq, system: str, user: str) -> str:
     response = client.chat.completions.create(
-        model="llama3-8b-8192",
+        model="llama-3.3-70b-versatile",
         messages=[
             {"role": "system", "content": system},
             {"role": "user",   "content": user},
