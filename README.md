@@ -2,19 +2,23 @@
 
 **Three AI agents working together to turn your semester chaos into a manageable plan.**
 
-## What This Does
+## The Problem
 
-College students get 5-6 syllabi at the start of each semester, each with assignments, quizzes, projects, and exams. Most people either manually copy everything into a calendar (boring and error-prone) or just wing it and hope they remember. TaskWeave fixes this with three AI agents that coordinate through a shared message bus to handle your workload.
+Every semester, students get 5–6 syllabi each packed with 15–20 deadlines across different formats, subjects, and dates. Most students either spend 30+ minutes manually copying everything into a calendar  or just wing it and end up in last-minute panic. Neither works.
+
+## The Solution
+
+TaskWeave takes your raw syllabus text : one subject or all of them pasted together  and runs three coordinating AI agents that produce a complete, resource-backed semester plan automatically.
 
 ## The Three Agents
 
-**Planner Agent** uses an LLM to read your syllabus and build a complete timeline. It doesn't just extract "Assignment due April 15" — it figures out you should probably start working on it April 8. Research paper due in week 12? You'll see a start date in week 8. It handles multiple date formats and identifies task types automatically.
+**Planner Agent** is the coordinator. It first detects how many courses are in the input and splits them. Then for each course it uses an LLM to extract every deadline and calculate a smart start date based on task complexity, a quiz gets a 5-day head start, a research paper gets 21 days. It sends messages to the Retriever requesting resources, and coordinates the overall flow.
 
-**Retriever Agent** finds study materials based on what type of task it is. Exams get past paper suggestions and study guides. Essays get writing and citation resources. Labs get safety guidelines and data templates. It adapts to the task type, not the subject, so it works for biology, history, economics, or any course.
+**Retriever Agent** responds to the Planner's requests. For each task it receives, it uses an LLM to suggest three specific, practical study resources tailored to both the task type and the subject. A biology lab gets different resources than a history essay. It then passes everything to the Executor.
 
-**Executor Agent** assembles everything into structured calendar events with reminders and the Retriever's resources attached, so each event is self-contained.
+**Executor Agent** assembles the final output. It takes the deadlines from the Planner and the resources from the Retriever, and creates structured calendar events with reminders and all materials attached , so every event is self-contained.
 
-The key part: **these agents communicate through a shared MessageBus**. The Planner sends a message requesting resources, the Retriever replies with materials, and the Executor creates events with everything included. You can watch every message in real time in the sidebar.
+The key architectural point: **these agents don't just run sequentially , they communicate**. Messages flow through a shared `MessageBus`. The Planner requests help, the Retriever responds, the Executor confirms completion. You can watch every message in real time in the sidebar.
 
 ## Quick Start
 
@@ -23,75 +27,48 @@ pip install streamlit groq
 streamlit run app.py
 ```
 
-Open your browser to `http://localhost:8501`
+Open `http://localhost:8501` in your browser.
 
 Get a **free** Groq API key at [console.groq.com](https://console.groq.com) and paste it in the sidebar.
 
-## How to Use It
+## How to Use
 
-1. Enter your free Groq API key in the sidebar
-2. Paste your course syllabus text (any subject works)
-3. Click **Process Syllabus** and watch the three agents work in real-time
-4. Check the **Timeline** tab to see when you should start working on each task
-5. Check the **Calendar Events** tab to see all events with study resources attached
+1. Enter your Groq API key in the sidebar
+2. Pick a demo subject from the dropdown, or paste your own syllabus
+3. To show multi-subject support, select **"🔀 Multiple Subjects (CS + Biology + Economics)"**
+4. Click **Process Syllabus** and watch the agents work through each course
+5. Check the **Timeline** tab : deadlines sorted with smart start dates and attached resources
+6. Check the **Calendar Events** tab : full events with reminders and study materials per course
 
-Watch the **Inter-Agent Message Log** in the sidebar — you'll see exactly when Planner talks to Retriever, when Retriever sends resources to Executor, and so on.
+The **Inter-Agent Message Log** in the sidebar shows every message passing between agents in real time.
+
+## Multi-Subject Support
+
+Paste syllabi from multiple courses together and the Planner Agent automatically detects the course boundaries, splits them, and processes each one independently through the full agent pipeline. The Timeline and Calendar views then show each course under its own section.
 
 ## Live Demo
 
 **Deployment**: https://microsoft-ai-hackathon-lxm4g6bdclweigebxjwd7j.streamlit.app/
 
-**Presentation + Video Demo**: https://drive.google.com/drive/folders/15NWyZzOgP6qLeoKskrfPVV-wtrUOTNti
-
-## Sample Syllabi to Test
-
-The app works with any subject. Try pasting these:
-
-**Biology:**
-```
-Cell Biology - Spring 2025
-
-- Lab Report 1 (Microscopy): Due March 15, 2025
-- Quiz on Cell Structure: March 22, 2025
-- Midterm Exam: April 10, 2025
-- Research Paper on Photosynthesis: Due May 5, 2025
-- Final Practical Exam: May 20, 2025
-```
-
-**History:**
-```
-Modern European History - Fall 2025
-
-- Essay on French Revolution: September 30, 2025
-- Reading Response (Chapters 1-5): October 15, 2025
-- Midterm Examination: November 1, 2025
-- Research Project Proposal: November 20, 2025
-- Final Presentation: December 8, 2025
-```
-
-**Microeconomics:**
-```
-Microeconomics - Spring 2025
-
-- Problem Set 1: February 28, 2025
-- Quiz on Supply & Demand: March 10, 2025
-- Midterm Exam: April 5, 2025
-- Economic Analysis Paper: May 1, 2025
-- Final Exam: May 18, 2025
-```
+**Presentation + Video**: https://drive.google.com/drive/folders/15NWyZzOgP6qLeoKskrfPVV-wtrUOTNti
 
 ## Tech Stack
 
-Python, Streamlit, Groq API (LLaMA 3), agent architecture with message-passing via a shared MessageBus.
+- **Python + Streamlit** : UI and app framework
+- **Groq API (LLaMA 3.3 70B)** : powers all three agents (free tier)
+- **MessageBus** : custom in-process message passing between agents
+- **Agent architecture** : three specialised agents with distinct roles and real coordination
 
-## What's Next (with more time / resources)
+## What's Next
 
-- Azure OpenAI / GPT-4 for higher accuracy parsing
-- Azure AI Search for retrieval from student's own uploaded notes
-- Real calendar API integrations (Google Calendar, Outlook, iCal)
-- Azure Container Apps deployment for scalability
-- Email / SMS notifications through the Executor
-- User accounts and multi-semester persistence
+With more time and resources:
+- **Azure OpenAI** for even more accurate syllabus parsing
+- **Azure AI Search** to retrieve from the student's own uploaded notes
+- **Azure Container Apps** to deploy each agent as its own scalable microservice
+- **Azure Service Bus** to replace the in-process MessageBus with a real distributed queue
+- **Calendar API integrations** : Google Calendar, Outlook, iCal export
+- **Email / SMS notifications** through the Executor agent
+- **User accounts** and multi-semester history
 
 ---
 
