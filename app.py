@@ -146,84 +146,84 @@ for k,v in [("bus",None),("all_courses",[]),("api_key","")]:
     if k not in st.session_state: st.session_state[k] = v
 
 DEMO_SYLLABI = {
-    "💻 Computer Science": """Data Structures & Algorithms — Spring 2025
+    "💻 Computer Science": """Data Structures & Algorithms — Spring 2026
 Instructor: Dr. Priya Mehta
-- Homework 1 (Arrays & Linked Lists): Due February 10, 2025 [5%]
-- Quiz 1 (Recursion basics): February 17, 2025 [5%]
-- Lab Report (Sorting benchmarks): Due March 1, 2025 [10%]
-- Assignment 2 (Graph traversal): Due March 14, 2025 [10%]
-- Midterm Exam (weeks 1–7): March 24, 2025 [20%]
-- Essay: Algorithmic complexity in real systems: Due April 7, 2025 [10%]
-- Group Project (Build a search engine): Due April 28, 2025 [20%]
-- Quiz 2 (Dynamic programming): April 14, 2025 [5%]
-- Final Presentation (Project demo): May 5, 2025 [5%]
-- Final Exam (comprehensive): May 15, 2025 [10%]""",
-    "🧬 Biology": """Cell Biology & Genetics — Spring 2025
+- Homework 1 (Arrays & Linked Lists): Due February 10, 2026 [5%]
+- Quiz 1 (Recursion basics): February 17, 2026 [5%]
+- Lab Report (Sorting benchmarks): Due March 1, 2026 [10%]
+- Assignment 2 (Graph traversal): Due March 14, 2026 [10%]
+- Midterm Exam (weeks 1–7): March 24, 2026 [20%]
+- Essay: Algorithmic complexity in real systems: Due April 7, 2026 [10%]
+- Group Project (Build a search engine): Due April 28, 2026 [20%]
+- Quiz 2 (Dynamic programming): April 14, 2026 [5%]
+- Final Presentation (Project demo): May 5, 2026 [5%]
+- Final Exam (comprehensive): May 15, 2026 [10%]""",
+    "🧬 Biology": """Cell Biology & Genetics — Spring 2026
 Instructor: Dr. Ananya Sharma
-- Lab Report 1 (Microscopy techniques): Due February 20, 2025 [10%]
-- Quiz on Cell Structure and Organelles: March 3, 2025 [5%]
-- Assignment: Literature Review on CRISPR: Due March 17, 2025 [10%]
-- Midterm Exam (covers weeks 1–7): March 31, 2025 [25%]
-- Lab Report 2 (PCR and Gel Electrophoresis): Due April 14, 2025 [10%]
-- Research Paper on Gene Expression: Due May 1, 2025 [20%]
-- Final Exam (comprehensive): May 19, 2025 [20%]""",
-    "📜 History": """Modern World History — Fall 2025
+- Lab Report 1 (Microscopy techniques): Due February 20, 2026 [10%]
+- Quiz on Cell Structure and Organelles: March 3, 2026 [5%]
+- Assignment: Literature Review on CRISPR: Due March 17, 2026 [10%]
+- Midterm Exam (covers weeks 1–7): March 31, 2026 [25%]
+- Lab Report 2 (PCR and Gel Electrophoresis): Due April 14, 2026 [10%]
+- Research Paper on Gene Expression: Due May 1, 2026 [20%]
+- Final Exam (comprehensive): May 19, 2026 [20%]""",
+    "📜 History": """Modern World History — Fall 2026
 Instructor: Prof. James Okafor
-- Reading Response 1 (Colonialism, Ch 1–4): Due September 15, 2025 [5%]
-- Essay: Causes of World War I: Due October 3, 2025 [15%]
-- Quiz on the Interwar Period: October 13, 2025 [5%]
-- Midterm Examination: October 27, 2025 [20%]
-- Research Project (Cold War topic): Due November 10, 2025 [10%]
-- Reading Response 2 (Decolonisation): Due November 24, 2025 [5%]
-- Final Research Paper: Due December 8, 2025 [25%]
-- Final Presentation (10 min): December 15, 2025 [15%]""",
-    "📊 Economics": """Microeconomics — Spring 2025
+- Reading Response 1 (Colonialism, Ch 1–4): Due September 15, 2026 [5%]
+- Essay: Causes of World War I: Due October 3, 2026 [15%]
+- Quiz on the Interwar Period: October 13, 2026 [5%]
+- Midterm Examination: October 27, 2026 [20%]
+- Research Project (Cold War topic): Due November 10, 2026 [10%]
+- Reading Response 2 (Decolonisation): Due November 24, 2026 [5%]
+- Final Research Paper: Due December 8, 2026 [25%]
+- Final Presentation (10 min): December 15, 2026 [15%]""",
+    "📊 Economics": """Microeconomics — Spring 2026
 Instructor: Dr. Leila Nasser
-- Problem Set 1 (Supply & Demand): Due February 14, 2025 [8%]
-- Quiz 1 (Consumer Theory): February 24, 2025 [7%]
-- Problem Set 2 (Market Structures): Due March 10, 2025 [8%]
-- Midterm Exam: March 21, 2025 [25%]
-- Essay: Market failure and government intervention: Due April 11, 2025 [12%]
-- Quiz 2 (Game Theory): April 21, 2025 [7%]
-- Policy Analysis Project: Due May 2, 2025 [18%]
-- Final Exam (comprehensive): May 16, 2025 [15%]""",
-    "⚗️ Chemistry": """Organic Chemistry II — Spring 2025
+- Problem Set 1 (Supply & Demand): Due February 14, 2026 [8%]
+- Quiz 1 (Consumer Theory): February 24, 2026 [7%]
+- Problem Set 2 (Market Structures): Due March 10, 2026 [8%]
+- Midterm Exam: March 21, 2026 [25%]
+- Essay: Market failure and government intervention: Due April 11, 2026 [12%]
+- Quiz 2 (Game Theory): April 21, 2026 [7%]
+- Policy Analysis Project: Due May 2, 2026 [18%]
+- Final Exam (comprehensive): May 16, 2026 [15%]""",
+    "⚗️ Chemistry": """Organic Chemistry II — Spring 2026
 Instructor: Dr. Rahul Verma
-- Lab Report 1 (Nucleophilic Substitution): Due February 17, 2025 [8%]
-- Homework 1 (Reaction mechanisms): Due February 28, 2025 [5%]
-- Quiz 1 (Aromatic compounds): March 10, 2025 [7%]
-- Lab Report 2 (Aldol Condensation): Due March 24, 2025 [8%]
-- Midterm Exam (chapters 1–6): April 4, 2025 [22%]
-- Homework 2 (Stereochemistry problems): Due April 18, 2025 [5%]
-- Research Presentation (synthesis pathway): April 28, 2025 [15%]
-- Final Exam (comprehensive): May 14, 2025 [30%]""",
-    "🔀 Multiple Subjects (CS + Biology + Economics)": """Data Structures & Algorithms — Spring 2025
+- Lab Report 1 (Nucleophilic Substitution): Due February 17, 2026 [8%]
+- Homework 1 (Reaction mechanisms): Due February 28, 2026 [5%]
+- Quiz 1 (Aromatic compounds): March 10, 2026 [7%]
+- Lab Report 2 (Aldol Condensation): Due March 24, 2026 [8%]
+- Midterm Exam (chapters 1–6): April 4, 2026 [22%]
+- Homework 2 (Stereochemistry problems): Due April 18, 2026 [5%]
+- Research Presentation (synthesis pathway): April 28, 2026 [15%]
+- Final Exam (comprehensive): May 14, 2026 [30%]""",
+    "🔀 Multiple Subjects (CS + Biology + Economics)": """Data Structures & Algorithms — Spring 2026
 Instructor: Dr. Priya Mehta
-- Homework 1 (Arrays & Linked Lists): Due February 10, 2025 [5%]
-- Quiz 1 (Recursion basics): February 17, 2025 [5%]
-- Midterm Exam: March 24, 2025 [20%]
-- Group Project (Build a search engine): Due April 28, 2025 [20%]
-- Final Exam (comprehensive): May 15, 2025 [10%]
+- Homework 1 (Arrays & Linked Lists): Due February 10, 2026 [5%]
+- Quiz 1 (Recursion basics): February 17, 2026 [5%]
+- Midterm Exam: March 24, 2026 [20%]
+- Group Project (Build a search engine): Due April 28, 2026 [20%]
+- Final Exam (comprehensive): May 15, 2026 [10%]
 
 ---
 
-Cell Biology & Genetics — Spring 2025
+Cell Biology & Genetics — Spring 2026
 Instructor: Dr. Ananya Sharma
-- Lab Report 1 (Microscopy techniques): Due February 20, 2025 [10%]
-- Quiz on Cell Structure: March 3, 2025 [5%]
-- Midterm Exam (covers weeks 1–7): March 31, 2025 [25%]
-- Research Paper on Gene Expression: Due May 1, 2025 [20%]
-- Final Exam (comprehensive): May 19, 2025 [20%]
+- Lab Report 1 (Microscopy techniques): Due February 20, 2026 [10%]
+- Quiz on Cell Structure: March 3, 2026 [5%]
+- Midterm Exam (covers weeks 1–7): March 31, 2026 [25%]
+- Research Paper on Gene Expression: Due May 1, 2026 [20%]
+- Final Exam (comprehensive): May 19, 2026 [20%]
 
 ---
 
-Microeconomics — Spring 2025
+Microeconomics — Spring 2026
 Instructor: Dr. Leila Nasser
-- Problem Set 1 (Supply & Demand): Due February 14, 2025 [8%]
-- Quiz 1 (Consumer Theory): February 24, 2025 [7%]
-- Midterm Exam: March 21, 2025 [25%]
-- Policy Analysis Project: Due May 2, 2025 [18%]
-- Final Exam (comprehensive): May 16, 2025 [15%]""",
+- Problem Set 1 (Supply & Demand): Due February 14, 2026 [8%]
+- Quiz 1 (Consumer Theory): February 24, 2026 [7%]
+- Midterm Exam: March 21, 2026 [25%]
+- Policy Analysis Project: Due May 2, 2026 [18%]
+- Final Exam (comprehensive): May 16, 2026 [15%]""",
 }
 
 BADGE_MAP = {"exam":"badge-exam","quiz":"badge-quiz","assignment":"badge-assignment","project":"badge-project","essay":"badge-essay","lab":"badge-lab","homework":"badge-homework","presentation":"badge-presentation"}
