@@ -10,17 +10,108 @@ class PlannerAgent:
         self.name = "Planner"
     
     def parse_syllabus(self, text):
-        # Simulate parsing
+        # Actually parse the syllabus text
         time.sleep(1)
+        
+        import re
+        from datetime import datetime, timedelta
+        
+        # Extract course name from first line or first mention
+        lines = text.strip().split('\n')
+        course_name = "Course"
+        for line in lines[:5]:
+            if line.strip() and not line.strip().startswith('-'):
+                course_name = line.strip()
+                break
+        
+        # Find all dates and associated tasks
+        deadlines = []
+        
+        # Common patterns for dates
+        date_patterns = [
+            r'(?:Due|due|DUE)[\s:]*([A-Z][a-z]+\s+\d{1,2}(?:,?\s*\d{4})?)',  # Due: February 20, 2024
+            r'([A-Z][a-z]+\s+\d{1,2}(?:,?\s*\d{4})?)',  # February 20, 2024
+            r'(\d{1,2}/\d{1,2}/\d{4})',  # 02/20/2024
+            r'(\d{4}-\d{2}-\d{2})',  # 2024-02-20
+        ]
+        
+        # Task keywords
+        task_keywords = ['assignment', 'quiz', 'exam', 'project', 'midterm', 'mid-term', 'final', 'test', 'homework']
+        
+        current_year = datetime.now().year
+        
+        for i, line in enumerate(lines):
+            line_lower = line.lower()
+            
+            # Check if line contains a task keyword
+            has_task = any(keyword in line_lower for keyword in task_keywords)
+            
+            if has_task:
+                # Try to find a date in this line or next few lines
+                search_text = '\n'.join(lines[i:min(i+3, len(lines))])
+                
+                found_date = None
+                task_name = line.strip().lstrip('-').strip()
+                
+                # Try each date pattern
+                for pattern in date_patterns:
+                    matches = re.findall(pattern, search_text, re.IGNORECASE)
+                    if matches:
+                        date_str = matches[0]
+                        try:
+                            # Parse the date
+                            if '/' in date_str:
+                                found_date = datetime.strptime(date_str, '%m/%d/%Y')
+                            elif '-' in date_str:
+                                found_date = datetime.strptime(date_str, '%Y-%m-%d')
+                            else:
+                                # Try parsing "Month Day" or "Month Day, Year"
+                                if ',' in date_str:
+                                    found_date = datetime.strptime(date_str, '%B %d, %Y')
+                                else:
+                                    # No year, assume current or next year
+                                    try:
+                                        found_date = datetime.strptime(f"{date_str}, {current_year}", '%B %d, %Y')
+                                    except:
+                                        found_date = datetime.strptime(f"{date_str}, {current_year + 1}", '%B %d, %Y')
+                            break
+                        except:
+                            continue
+                
+                if found_date:
+                    # Calculate start date (1 week before for small tasks, 2-3 weeks for exams/projects)
+                    days_before = 7
+                    if any(word in line_lower for word in ['exam', 'project', 'midterm', 'mid-term', 'final']):
+                        days_before = 14
+                    
+                    start_date = found_date - timedelta(days=days_before)
+                    
+                    # Clean up task name
+                    if ':' in task_name:
+                        task_name = task_name.split(':', 1)[0].strip()
+                    task_name = re.sub(r'^\d+\.?\s*', '', task_name)  # Remove leading numbers
+                    task_name = re.sub(r'\s+', ' ', task_name)  # Normalize whitespace
+                    
+                    deadlines.append({
+                        "task": task_name,
+                        "due_date": found_date.strftime('%Y-%m-%d'),
+                        "start_date": start_date.strftime('%Y-%m-%d')
+                    })
+        
+        # Sort by due date
+        deadlines.sort(key=lambda x: x['due_date'])
+        
+        # If no deadlines found, return a helpful message
+        if not deadlines:
+            deadlines = [{
+                "task": "No deadlines detected - please format syllabus with dates",
+                "due_date": datetime.now().strftime('%Y-%m-%d'),
+                "start_date": datetime.now().strftime('%Y-%m-%d')
+            }]
+        
         return {
-            "course": "Data Structures and Algorithms",
-            "deadlines": [
-                {"task": "Assignment 1: Arrays and Linked Lists", "due_date": "2024-04-15", "start_date": "2024-04-08"},
-                {"task": "Quiz 1: Complexity Analysis", "due_date": "2024-04-22", "start_date": "2024-04-20"},
-                {"task": "Mid-term Exam", "due_date": "2024-05-10", "start_date": "2024-05-03"},
-                {"task": "Project: Graph Algorithms Implementation", "due_date": "2024-05-25", "start_date": "2024-05-05"},
-                {"task": "Assignment 2: Trees and Heaps", "due_date": "2024-05-18", "start_date": "2024-05-11"},
-            ]
+            "course": course_name,
+            "deadlines": deadlines
         }
     
     def request_resources(self, task):
@@ -31,16 +122,84 @@ class RetrieverAgent:
         self.name = "Retriever"
     
     def find_resources(self, task):
-        # Simulate finding resources
+        # Actually generate relevant resources based on task content
         time.sleep(0.5)
-        resources = {
-            "Assignment 1: Arrays and Linked Lists": ["Lecture notes: Week 1-2", "Tutorial: Array operations.pdf"],
-            "Quiz 1: Complexity Analysis": ["Big-O notation guide", "Practice problems set 1"],
-            "Mid-term Exam": ["All lecture slides", "Previous year papers", "Study guide chapters 1-5"],
-            "Project: Graph Algorithms Implementation": ["Graph theory notes", "BFS/DFS implementation guide"],
-            "Assignment 2: Trees and Heaps": ["Binary tree notes", "Heap operations tutorial"],
-        }
-        return resources.get(task, ["General study materials"])
+        
+        task_lower = task.lower()
+        resources = []
+        
+        # General academic resource types based on task keywords
+        if any(word in task_lower for word in ['exam', 'midterm', 'mid-term', 'final']):
+            resources.extend([
+                'Previous exam papers',
+                'Comprehensive study guide',
+                'Review notes and summaries',
+                'Practice questions'
+            ])
+        elif 'quiz' in task_lower:
+            resources.extend([
+                'Quick review notes',
+                'Key concepts summary',
+                'Practice problems'
+            ])
+        elif any(word in task_lower for word in ['project', 'research', 'thesis', 'dissertation']):
+            resources.extend([
+                'Project guidelines and rubric',
+                'Research methodology guide',
+                'Reference examples',
+                'Citation and formatting guide'
+            ])
+        elif any(word in task_lower for word in ['assignment', 'homework', 'problem set', 'exercise']):
+            resources.extend([
+                'Lecture notes for this topic',
+                'Textbook chapters',
+                'Solution examples',
+                'Office hours schedule'
+            ])
+        elif any(word in task_lower for word in ['presentation', 'seminar', 'talk']):
+            resources.extend([
+                'Presentation guidelines',
+                'Sample slides',
+                'Public speaking tips'
+            ])
+        elif any(word in task_lower for word in ['paper', 'essay', 'report', 'writing']):
+            resources.extend([
+                'Writing guide',
+                'Sample papers',
+                'Peer review checklist',
+                'Grammar and style guide'
+            ])
+        elif any(word in task_lower for word in ['lab', 'experiment', 'practical']):
+            resources.extend([
+                'Lab manual',
+                'Safety guidelines',
+                'Equipment setup guide',
+                'Data analysis templates'
+            ])
+        elif any(word in task_lower for word in ['reading', 'chapter', 'book']):
+            resources.extend([
+                'Reading guide',
+                'Chapter summaries',
+                'Discussion questions'
+            ])
+        else:
+            # Generic fallback
+            resources.extend([
+                'Lecture notes',
+                'Recommended readings',
+                'Study materials',
+                'Online resources'
+            ])
+        
+        # Remove duplicates while preserving order
+        seen = set()
+        unique_resources = []
+        for r in resources:
+            if r not in seen:
+                seen.add(r)
+                unique_resources.append(r)
+        
+        return unique_resources[:3]  # Return max 3 resources
     
     def respond(self, request):
         return f"[Retriever → Planner] Found resources"
@@ -145,15 +304,26 @@ with tab1:
     st.header("Upload Course Syllabus")
     
     # Sample syllabus text
-    sample_text = """
-    Data Structures and Algorithms - Spring 2024
-    
-    Course Schedule:
-    - Assignment 1 (Arrays & Linked Lists): Due April 15
-    - Quiz 1 (Complexity Analysis): April 22
-    - Mid-term Exam: May 10
-    - Project (Graph Algorithms): Due May 25
-    - Assignment 2 (Trees & Heaps): Due May 18
+    sample_text = """Advanced Database Systems - Spring 2024
+Instructor: Dr. Sarah Chen
+
+Course Overview:
+This course covers advanced topics in database systems including distributed databases,
+NoSQL systems, query optimization, and transaction management.
+
+Important Dates:
+- Assignment 1 (SQL Query Optimization): Due February 20, 2024
+- Quiz 1 (Indexing and B-Trees): February 27, 2024
+- Assignment 2 (Distributed Transactions): Due March 15, 2024
+- Mid-term Exam: March 22, 2024 (Covers weeks 1-6)
+- Project Proposal: Due April 5, 2024
+- Assignment 3 (NoSQL Database Design): Due April 19, 2024
+- Quiz 2 (Concurrency Control): April 26, 2024
+- Project Implementation: Due May 10, 2024
+- Final Exam: May 17, 2024 (Comprehensive)
+
+Prerequisites: Introduction to Databases, basic SQL knowledge
+Grading: Assignments (30%), Quizzes (20%), Mid-term (20%), Project (20%), Final (10%)
     """
     
     syllabus_text = st.text_area("Paste syllabus text or upload PDF", sample_text, height=200)
