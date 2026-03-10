@@ -277,31 +277,96 @@ st.markdown('<p class="tw-sub">Three AI agents that turn your semester chaos int
 
 tab1, tab2, tab3 = st.tabs(["📄  Syllabus", "📅  Timeline", "🗓️  Calendar Events"])
 
-SAMPLE = """Computer Science — Data Structures & Algorithms
-Spring 2025 | Instructor: Dr. Priya Mehta
+DEMO_SYLLABI = {
+    "💻 Computer Science": """Data Structures & Algorithms — Spring 2025
+Instructor: Dr. Priya Mehta
 
-Course Grading:
 - Homework 1 (Arrays & Linked Lists): Due February 10, 2025 [5%]
 - Quiz 1 (Recursion basics): February 17, 2025 [5%]
 - Lab Report (Sorting algorithm benchmarks): Due March 1, 2025 [10%]
 - Assignment 2 (Graph traversal implementation): Due March 14, 2025 [10%]
 - Midterm Exam (covers weeks 1–7): March 24, 2025 [20%]
-- Essay: Analysis of algorithmic complexity in real-world systems: Due April 7, 2025 [10%]
+- Essay: Algorithmic complexity in real-world systems: Due April 7, 2025 [10%]
 - Group Project (Build a search engine): Due April 28, 2025 [20%]
 - Quiz 2 (Dynamic programming): April 14, 2025 [5%]
 - Final Presentation (Project demo): May 5, 2025 [5%]
 - Final Exam (comprehensive): May 15, 2025 [10%]
-"""
+""",
+    "🧬 Biology": """Cell Biology & Genetics — Spring 2025
+Instructor: Dr. Ananya Sharma
+
+- Lab Report 1 (Microscopy techniques): Due February 20, 2025 [10%]
+- Quiz on Cell Structure and Organelles: March 3, 2025 [5%]
+- Assignment: Literature Review on CRISPR: Due March 17, 2025 [10%]
+- Midterm Exam (covers weeks 1–7): March 31, 2025 [25%]
+- Lab Report 2 (PCR and Gel Electrophoresis): Due April 14, 2025 [10%]
+- Research Paper on Gene Expression: Due May 1, 2025 [20%]
+- Final Exam (comprehensive): May 19, 2025 [20%]
+""",
+    "📜 History": """Modern World History — Fall 2025
+Instructor: Prof. James Okafor
+
+- Reading Response 1 (Chapters 1–4, Colonialism): Due September 15, 2025 [5%]
+- Essay: Causes of World War I: Due October 3, 2025 [15%]
+- Quiz on the Interwar Period: October 13, 2025 [5%]
+- Midterm Examination: October 27, 2025 [20%]
+- Research Project Proposal (Cold War topic): Due November 10, 2025 [10%]
+- Reading Response 2 (Decolonisation movements): Due November 24, 2025 [5%]
+- Final Research Paper: Due December 8, 2025 [25%]
+- Final Presentation (10 min): December 15, 2025 [15%]
+""",
+    "📊 Economics": """Microeconomics — Spring 2025
+Instructor: Dr. Leila Nasser
+
+- Problem Set 1 (Supply & Demand): Due February 14, 2025 [8%]
+- Quiz 1 (Consumer Theory): February 24, 2025 [7%]
+- Problem Set 2 (Market Structures): Due March 10, 2025 [8%]
+- Midterm Exam: March 21, 2025 [25%]
+- Essay: Market failure and government intervention: Due April 11, 2025 [12%]
+- Quiz 2 (Game Theory): April 21, 2025 [7%]
+- Policy Analysis Project: Due May 2, 2025 [18%]
+- Final Exam (comprehensive): May 16, 2025 [15%]
+""",
+    "⚗️ Chemistry": """Organic Chemistry II — Spring 2025
+Instructor: Dr. Rahul Verma
+
+- Lab Report 1 (Nucleophilic Substitution): Due February 17, 2025 [8%]
+- Homework 1 (Reaction mechanisms): Due February 28, 2025 [5%]
+- Quiz 1 (Aromatic compounds): March 10, 2025 [7%]
+- Lab Report 2 (Aldol Condensation): Due March 24, 2025 [8%]
+- Midterm Exam (chapters 1–6): April 4, 2025 [22%]
+- Homework 2 (Stereochemistry problems): Due April 18, 2025 [5%]
+- Research Presentation (assigned synthesis pathway): April 28, 2025 [15%]
+- Final Exam (comprehensive): May 14, 2025 [30%]
+""",
+}
 
 # ── TAB 1 ──────────────────────────────────────────────────
 
 with tab1:
     st.markdown("### Paste Your Course Syllabus")
-    st.markdown("<span style='color:#6b6b88;font-size:0.85rem'>"
-                "Works with any subject — biology, history, CS, economics, law, anything."
-                "</span>", unsafe_allow_html=True)
+    st.markdown(
+        "<span style='color:#6b6b88;font-size:0.85rem'>"
+        "Works with any subject — pick a demo below or paste your own."
+        "</span>", unsafe_allow_html=True)
 
-    syllabus = st.text_area("", value=SAMPLE, height=220, placeholder="Paste your syllabus here…")
+    # Subject selector
+    col_sel, col_gap = st.columns([2, 3])
+    with col_sel:
+        subject_choice = st.selectbox(
+            "📚 Load a demo syllabus",
+            ["✏️ Type my own"] + list(DEMO_SYLLABI.keys()),
+            index=1,
+        )
+
+    if subject_choice == "✏️ Type my own":
+        default_text = ""
+    else:
+        default_text = DEMO_SYLLABI[subject_choice]
+
+    syllabus = st.text_area("", value=default_text, height=220,
+                             placeholder="Paste your syllabus here…",
+                             key=subject_choice)  # key forces re-render on change
 
     if st.button("🚀  Process Syllabus", type="primary"):
         if not st.session_state.api_key:
