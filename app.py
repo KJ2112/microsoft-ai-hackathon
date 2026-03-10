@@ -173,13 +173,7 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700;800&display=swap');
 
 html, body, [data-testid="stAppViewContainer"] {
-    background: #08080f !important;
-    color: #ddd8f0 !important;
     font-family: 'Sora', sans-serif !important;
-}
-[data-testid="stSidebar"] {
-    background: #0d0d1a !important;
-    border-right: 1px solid #1e1e30 !important;
 }
 h1,h2,h3 { font-family: 'Sora', sans-serif !important; }
 
@@ -199,32 +193,32 @@ h1,h2,h3 { font-family: 'Sora', sans-serif !important; }
     padding: 5px 10px; border-radius: 6px; margin: 3px 0;
     display: block; word-break: break-word;
 }
-.msg-planner   { background:#0d1a2e; color:#93c5fd; border-left:3px solid #3b82f6; }
-.msg-retriever { background:#160d2e; color:#c4b5fd; border-left:3px solid #7c3aed; }
-.msg-executor  { background:#0d2318; color:#6ee7b7; border-left:3px solid #059669; }
-.msg-system    { background:#1a1a1a; color:#777;    border-left:3px solid #444; }
+.msg-planner   { background:#dbeafe; color:#1d4ed8; border-left:3px solid #3b82f6; }
+.msg-retriever { background:#ede9fe; color:#6d28d9; border-left:3px solid #7c3aed; }
+.msg-executor  { background:#d1fae5; color:#065f46; border-left:3px solid #059669; }
+.msg-system    { background:#f3f4f6; color:#6b7280; border-left:3px solid #d1d5db; }
 
 .badge {
     font-family: 'Space Mono', monospace; font-size: 0.62rem; font-weight: 700;
     padding: 2px 8px; border-radius: 99px; text-transform: uppercase;
     letter-spacing: 0.06em; display: inline-block; margin-bottom: 6px;
 }
-.badge-exam       { background:#1e0a0a; color:#f87171; border:1px solid #ef4444; }
-.badge-quiz       { background:#1a1000; color:#fbbf24; border:1px solid #f59e0b; }
-.badge-assignment { background:#001a1a; color:#34d399; border:1px solid #10b981; }
-.badge-project    { background:#0a0a1e; color:#818cf8; border:1px solid #6366f1; }
-.badge-essay      { background:#1a0a18; color:#e879f9; border:1px solid #d946ef; }
-.badge-lab        { background:#0a1a10; color:#4ade80; border:1px solid #22c55e; }
-.badge-other      { background:#1a1a1a; color:#9ca3af; border:1px solid #6b7280; }
+.badge-exam       { background:#fee2e2; color:#b91c1c; border:1px solid #ef4444; }
+.badge-quiz       { background:#fef3c7; color:#92400e; border:1px solid #f59e0b; }
+.badge-assignment { background:#d1fae5; color:#065f46; border:1px solid #10b981; }
+.badge-project    { background:#e0e7ff; color:#3730a3; border:1px solid #6366f1; }
+.badge-essay      { background:#fae8ff; color:#86198f; border:1px solid #d946ef; }
+.badge-lab        { background:#dcfce7; color:#166534; border:1px solid #22c55e; }
+.badge-other      { background:#f3f4f6; color:#374151; border:1px solid #9ca3af; }
 
 .tw-card {
-    background: #111120; border: 1px solid #1e1e30; border-radius: 12px;
+    background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px;
     padding: 1.1rem 1.3rem; margin: 0.7rem 0;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
-.tw-card:hover { border-color: #a78bfa; }
-.tw-card h4 { margin: 0 0 0.4rem; font-size: 1rem; color: #e2e0f0; }
-.meta { font-size: 0.82rem; color: #7070a0; margin: 2px 0; }
+.tw-card:hover { border-color: #a78bfa; box-shadow: 0 2px 12px rgba(167,139,250,0.15); }
+.tw-card h4 { margin: 0 0 0.4rem; font-size: 1rem; }
+.meta { font-size: 0.82rem; color: #6b7280; margin: 2px 0; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -283,17 +277,20 @@ st.markdown('<p class="tw-sub">Three AI agents that turn your semester chaos int
 
 tab1, tab2, tab3 = st.tabs(["📄  Syllabus", "📅  Timeline", "🗓️  Calendar Events"])
 
-SAMPLE = """Cell Biology — Spring 2025
-Instructor: Dr. Ananya Sharma
+SAMPLE = """Computer Science — Data Structures & Algorithms
+Spring 2025 | Instructor: Dr. Priya Mehta
 
-Grading & Deadlines:
-- Lab Report 1 (Microscopy techniques): Due March 15, 2025  [10%]
-- Quiz on Cell Structure and Organelles: March 22, 2025  [5%]
-- Assignment: Literature Review on Cell Division: Due April 2, 2025  [10%]
-- Midterm Exam (covers weeks 1–7): April 10, 2025  [25%]
-- Research Paper on Photosynthesis pathways: Due May 3, 2025  [20%]
-- Lab Report 2 (Protein analysis): Due May 12, 2025  [10%]
-- Final Exam (comprehensive): May 22, 2025  [20%]
+Course Grading:
+- Homework 1 (Arrays & Linked Lists): Due February 10, 2025 [5%]
+- Quiz 1 (Recursion basics): February 17, 2025 [5%]
+- Lab Report (Sorting algorithm benchmarks): Due March 1, 2025 [10%]
+- Assignment 2 (Graph traversal implementation): Due March 14, 2025 [10%]
+- Midterm Exam (covers weeks 1–7): March 24, 2025 [20%]
+- Essay: Analysis of algorithmic complexity in real-world systems: Due April 7, 2025 [10%]
+- Group Project (Build a search engine): Due April 28, 2025 [20%]
+- Quiz 2 (Dynamic programming): April 14, 2025 [5%]
+- Final Presentation (Project demo): May 5, 2025 [5%]
+- Final Exam (comprehensive): May 15, 2025 [10%]
 """
 
 # ── TAB 1 ──────────────────────────────────────────────────
@@ -411,11 +408,11 @@ with tab2:
             resources = next(
                 (ev["resources"] for ev in st.session_state.events if ev["title"] == item["task"]), [])
             res_html = "".join(
-                f'<span style="display:inline-block;background:#1a1a2e;border:1px solid #2e2e50;'
+                f'<span style="display:inline-block;background:#f0f0ff;border:1px solid #c4b5fd;'
                 f'border-radius:6px;padding:3px 9px;font-size:0.77rem;margin:3px;color:#a78bfa">'
                 f'📎 {r["title"]}</span>'
                 for r in resources
-            ) or "<span style='color:#444;font-size:0.8rem'>—</span>"
+            ) or "<span style='color:#9ca3af;font-size:0.8rem'>—</span>"
 
             weight = item.get("weight", "unknown")
             weight_str = f" · Weight: {weight}" if weight != "unknown" else ""
@@ -450,12 +447,12 @@ with tab3:
 
         for ev in events:
             res_items = "".join(
-                f'<div style="margin:4px 0;font-size:0.82rem;color:#a0a0c0">'
+                f'<div style="margin:4px 0;font-size:0.82rem;color:#4b5563">'
                 f'📌 <b>{r["title"]}</b>'
-                f'<span style="color:#555"> ({r.get("type","")}) — {r.get("description","")}</span>'
+                f'<span style="color:#9ca3af"> ({r.get("type","")}) — {r.get("description","")}</span>'
                 f'</div>'
                 for r in ev["resources"]
-            ) if ev["resources"] else "<div style='color:#444;font-size:0.8rem'>No resources attached</div>"
+            ) if ev["resources"] else "<div style='color:#9ca3af;font-size:0.8rem'>No resources attached</div>"
 
             st.markdown(f"""
 <div class="tw-card">
@@ -464,11 +461,11 @@ with tab3:
   <div class="meta">🟢 Start working: <b>{ev['start']}</b></div>
   <div class="meta">🔴 Due date: <b>{ev['due']}</b> &nbsp;·&nbsp; Weight: {ev['weight']}</div>
   <div class="meta">⏱ {ev['days_to_work']} days of work scheduled</div>
-  <div style="margin-top:10px;padding-top:8px;border-top:1px solid #1e1e30">
+  <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.08)">
     <div style="font-size:0.72rem;color:#6b6b88;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em">Attached Resources</div>
     {res_items}
   </div>
-  <div style="margin-top:8px;background:#1a1a2e;border-radius:6px;padding:6px 10px;font-size:0.8rem;color:#818cf8">
+  <div style="margin-top:8px;background:#ede9fe;border-radius:6px;padding:6px 10px;font-size:0.8rem;color:#6d28d9">
     🔔 {ev['reminder']}
   </div>
 </div>
@@ -478,7 +475,7 @@ with tab3:
 
 st.divider()
 st.markdown("""
-<div style='text-align:center;color:#2a2a40;font-size:0.8rem;padding:0.5rem'>
+<div style='text-align:center;color:#9ca3af;font-size:0.8rem;padding:0.5rem'>
   TaskWeave · Multi-Agent Academic Planner · Built by Krrish Jindal (IIT Roorkee)
 </div>
 """, unsafe_allow_html=True)
